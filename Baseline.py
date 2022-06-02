@@ -65,8 +65,3 @@ if __name__== "__main__":
     # z= MultiLabelBinarizer().fit(y_train)
     # MultiLabelBinarizer().fit(y_test)
     print(baseline(X_train, X_test, y_train, y_test))
-
-
-
-
-
