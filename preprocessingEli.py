@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def dropFeatures(X: pd.DataFrame):
     irrelevant_features = [' Form Name', ' Hospital', 'User Name', 'אבחנה-Histological diagnosis', 'אבחנה-Histopatological degree', 'אבחנה-Ivi -Lymphovascular invasion'
@@ -13,13 +14,21 @@ def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
     X = X[['אבחנה-M -metastases mark (TNM)','אבחנה-Stage', 'אבחנה-Surgery name1', 'אבחנה-Surgery name2']]
 
     # 'אבחנה-M -metastases mark (TNM)'
+    # X['אבחנה-M -metastases mark (TNM)'].fillna('nan', inplace=True)
+    # uniques = [elem for elem in X['אבחנה-M -metastases mark (TNM)'].unique()]
+    # for elem in uniques:
+    #     if type(elem) != str:
+    #         uniques.remove(elem)
     X = pd.get_dummies(X, prefix='אבחנה-M -metastases mark (TNM)', columns=['אבחנה-M -metastases mark (TNM)'])
-    X.rename(columns={'אבחנה-M -metastases mark (TNM)_M0':'metastases mark (TNM)-M0', 'אבחנה-M -metastases mark (TNM)_M1':'metastases mark (TNM)-M1'}, inplace=True)
-    X['metastases mark (TNM)-M1'] = X[['metastases mark (TNM)-M1', 'אבחנה-M -metastases mark (TNM)_M1a', 'אבחנה-M -metastases mark (TNM)_M1b']].max(axis=1)
-    X.drop('אבחנה-M -metastases mark (TNM)_MX', axis=1, inplace=True)
-    X.drop('אבחנה-M -metastases mark (TNM)_Not yet Established', axis=1, inplace=True)
-    X.drop('אבחנה-M -metastases mark (TNM)_M1a', axis=1, inplace=True)
-    X.drop('אבחנה-M -metastases mark (TNM)_M1b', axis=1, inplace=True)
+    # X.rename(columns={'אבחנה-M -metastases mark (TNM)_M0':'metastases mark (TNM)-M0', 'אבחנה-M -metastases mark (TNM)_M1':'metastases mark (TNM)-M1'}, inplace=True)
+    # uniquesM1 = [elem for elem in uniques if '1' in elem]
+    # print(uniques)
+    # X['metastases mark (TNM)-M1'] = X[uniquesM1].max(axis=1)
+    # print(uniques)
+    # X.drop('אבחנה-M -metastases mark (TNM)_MX', axis=1, inplace=True)
+    # X.drop('אבחנה-M -metastases mark (TNM)_Not yet Established', axis=1, inplace=True)
+    # X.drop('אבחנה-M -metastases mark (TNM)_M1a', axis=1, inplace=True)
+    # X.drop('אבחנה-M -metastases mark (TNM)_M1b', axis=1, inplace=True)
 
     # אבחנה-Surgery name1, אבחנה-Surgery name2
     X['אבחנה-Surgery name1'].fillna(0, inplace=True)
@@ -34,6 +43,10 @@ def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
     X['אבחנה-Stage'] = X['אבחנה-Stage'].replace(stageDictionary)
 
     return X
+
+def preprocessing(X: pd.DataFrame):
+    pass
+
 
 
 if __name__ == '__main__':
