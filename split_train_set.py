@@ -2,16 +2,23 @@ import sklearn as sklearn
 
 from constants import*
 
-from typing import Tuple
+from typing import Tuple, Optional, Union
 import pandas as pd
 import numpy as np
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
-# split each set to sick and not sick
-# split to train - dev - test
 
+# s = y_.squeeze()
+# mlb = MultiLabelBinarizer()
+# y_dummies = pd.DataFrame(mlb.fit_transform(s), columns=mlb.classes_, index=y_.index)
+# # y_dummies = pd.get_dummies(y_.stack()).sum(level=0, axis=1)
+# print(f'before: {y_dummies.nunique()}\n\n')
+# print(f'values: {pd.unique(y_dummies.squeeze())}\n{"-"*30}\n')
+# name = y_.columns[0]
+# unique_y = y_[name].unique().index()
+# y_s = y_.squeeze()
 
 def load_data():
     X = pd.read_csv(TRAIN_FEATURES_PATH)
@@ -22,27 +29,51 @@ def load_data():
     return X, y_0, y_1
 
 
-def split_task_A():
+def split_data_tumor_size() -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
+    # read relevant data
     X_ = pd.read_csv(TRAIN_FEATURES_PATH)
     y_ = pd.read_csv(TRAIN_LABELS_0_PATH)
     print(f'before: {y_.nunique()}\n\n')
     print(f'values: {pd.unique(y_.squeeze())}\n{"-"*30}\n')
 
-    # extract unique classes
-    s = y_.squeeze()
-    mlb = MultiLabelBinarizer()
-    y_dummies = pd.DataFrame(mlb.fit_transform(s), columns=mlb.classes_, index=y_.index)
-    # y_dummies = pd.get_dummies(y_.stack()).sum(level=0, axis=1)
-    print(f'before: {y_dummies.nunique()}\n\n')
-    print(f'values: {pd.unique(y_dummies.squeeze())}\n{"-"*30}\n')
-    name = y_.columns[0]
-    unique_y = y_[name].unique().index()
+    # split data to [(train + dev), test]:
+    X_train_, X_test, y_train_, y_test = train_test_split(X_, y_, test_size=TEST_PERCENTAGE, random_state=SPLIT_SEED)
 
-    y_s = y_.squeeze()
-    X_train_, X_test, y_train_, y_test = train_test_split(X_, y_s, test_size=TEST_PERCENTAGE, random_state=SPLIT_SEED, stratify=y_s)
+    # split to -> [train, dev]:
+    X_train, X_dev, y_train, y_dev = train_test_split(X_train_, y_train_, test_size=DEV_PERCENTAGE, random_state=SPLIT_SEED)
 
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train_, y_train_, test_size=DEV_PERCENTAGE, random_state=SPLIT_SEED, stratify=y_train_)
     return X_train, X_dev, X_test, y_train, y_dev, y_test
+
+
+def save_to_csv(df: Union[pd.DataFrame, pd.Series], path: str):
+    path = path + r'.csv'
+    df.to_csv(path_or_buf=path)
+
+
+def examine_data(data: Union[pd.DataFrame, pd.Series]):
+    # print(df['label'].corr(df['label']))
+    print(f"feature:\n{data.columns}\n{'-' * 50}")
+    # df.drop(axis=1, inplace=True, labels=['some label'])  # drop labels, inplace - should change the original df
+    headers = data.head()  # 5 rows of each column
+    labels = data.columns  # labels of dataset columns
+    analysis = data.describe()  # the analysis of each column
+    dtypes = data.dtypes
+    print(f"X.dtypes:\n{data.dtypes}\n{'-' * 50}")
+
+
+if __name__ == '__main__':
+    np.random.seed(GENERAL_SEED)
+    X_train, X_dev, X_test, y_train, y_dev, y_test = split_data_tumor_size()
+
+    # do not uncomment! just initial data save
+    for d, name in ((X_train, 'train_features'), (X_dev, 'dev_features'), (X_test, 'test_features'),
+                    (y_train, 'train_labels'), (y_dev, 'dev_labels'), (y_test, 'test_labels')):
+        save_to_csv(df=d, path=DATA_SAVE_PATH + name)
+
+    # for d, name in X_train, X_dev, X_test, y_train, y_dev, y_test:
+    #     examine_data(d)
+
+
 
 
 # def split_train_test(X: pd.DataFrame, y_0: pd.DataFrame, y_1: pd.DataFrame) -> \
@@ -85,9 +116,3 @@ def split_task_A():
 #     train_y = y.drop(test_y.index).reindex_like(train_X)
 #
 #     return train_X, train_y, test_X, test_y
-
-
-if __name__ == '__main__':
-    X_train, X_dev, X_test, y_train, y_dev, y_test = split_task_A()
-
-    # train_set, dev_set, test_set = split_train_test(X=X, y=y, train_proportion=1-TEST_PERCENTAGE)
