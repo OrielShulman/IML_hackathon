@@ -257,7 +257,6 @@ def apply_preprocessing_task1(df: pd.DataFrame) -> pd.DataFrame:
 
     df = f_breast_side(df=df)
 
-    print(f"types:\n{df.dtypes}\n{'-' * 30}\n")
     return df
 
 
@@ -301,3 +300,4 @@ if __name__ == '__main__':
 # print(f"positive_nodes: {len(df['positive_nodes'].unique())} values:\n{df['positive_nodes'].unique()}\n"
 #       f"{df['positive_nodes'].value_counts()}\n{'-'*30}")
 
+# print(f"types:\n{df.dtypes}\n{'-' * 30}\n")
