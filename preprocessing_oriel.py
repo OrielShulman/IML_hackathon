@@ -273,7 +273,7 @@ def generate_task1_data(level: str) -> None:
 if __name__ == '__main__':
     np.random.seed(GENERAL_SEED)
 
-    generate_task1_data(level='1')
+    # generate_task1_data(level='1')
 
     # train_set_ = pd.read_csv(TRAIN_F_PATH)
     # processed_train_set_ = apply_preprocessing_task1(df=train_set_)
