@@ -62,7 +62,7 @@ def examine_data(data: Union[pd.DataFrame, pd.Series]):
 
 
 if __name__ == '__main__':
-    np.random.seed(GENERAL_SEED)
+    np.random.seed(0)
     X_train, X_dev, X_test, y_train, y_dev, y_test = split_data_tumor_size()
 
     # do not uncomment! just initial data save
