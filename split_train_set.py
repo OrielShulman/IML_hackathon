@@ -70,7 +70,7 @@ if __name__ == '__main__':
     #                 (y_train, 'train_labels'), (y_dev, 'dev_labels'), (y_test, 'test_labels')):
     #     save_to_csv(df=d, path=DATA_SAVE_PATH + name)
 
-    for d, name in X_train, X_dev, X_test, y_train, y_dev, y_test:
+    for d in X_train, X_dev, X_test, y_train, y_dev, y_test:
         examine_data(d)
 
 
