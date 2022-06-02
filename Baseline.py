@@ -44,6 +44,7 @@ def baseline(X_train, X_test, y_train, y_test):
     return micro_loss, macro_loss
 
 if __name__== "__main__":
+
     X_train = pd.read_csv('resorces/data/V_0/train_features.csv')
     X_test = pd.read_csv('resorces/data/V_0/test_features.csv')
     y_train = pd.read_csv('resorces/data/V_0/train_labels.csv')
