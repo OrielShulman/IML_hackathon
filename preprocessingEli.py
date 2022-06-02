@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def dropFeatures(X: pd.DataFrame):
     irrelevant_features = [' Form Name', ' Hospital', 'User Name', 'אבחנה-Histological diagnosis', 'אבחנה-Histopatological degree', 'אבחנה-Ivi -Lymphovascular invasion'
     ,'אבחנה-N -lymph nodes mark (TNM)', 'אבחנה-Nodes exam', 'אבחנה-Positive nodes', 'אבחנה-Stage', 'אבחנה-Surgery date1', 'אבחנה-Surgery date2', 'אבחנה-Surgery date3'
@@ -33,11 +34,11 @@ def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
     # אבחנה-Surgery name1, אבחנה-Surgery name2
     X['אבחנה-Surgery name1'].fillna(0, inplace=True)
     X['אבחנה-Surgery name2'].fillna(0, inplace=True)
-    X['אבחנה-Stage'].fillna(0, inplace=True)
     X = pd.get_dummies(X, prefix='אבחנה-Surgery name1', columns=['אבחנה-Surgery name1'])
     X = pd.get_dummies(X, prefix='אבחנה-Surgery name2', columns=['אבחנה-Surgery name2'])
 
     # אבחנה-Stage
+    X['אבחנה-Stage'].fillna(0, inplace=True)
     stageDictionary = {'Stage2a':2, 'Stage4':4, 'Stage1':1, 'Stage3b':3, 'Stage2b':2, 'LA':0, 'Stage1c':1, 'Stage2':2, 'Stage3c':3,
      'Stage0':0, 'Stage1b':1, 'Stage3a':3, 'Stage3':3, 'Stage1a':1, 'Stage0is':0,'Not yet Established':0, 'Stage0a':0}
     X['אבחנה-Stage'] = X['אבחנה-Stage'].replace(stageDictionary)
