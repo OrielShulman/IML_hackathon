@@ -55,7 +55,7 @@ if __name__ == '__main__':
     X = pd.read_csv('/Users/elilevinkopf/Documents/Ex22B/IML/Hackathon/IML_hackathon/resorces/origin_data/train.feats.csv', low_memory=False)
     # dropFeatures(X)
     processed_X = basicPreprocessing(X)
-    processed_X.to_csv('baseLine.csv')
-    Y = pd.read_csv('/Users/elilevinkopf/Documents/Ex22B/IML/Hackathon/IML_hackathon/resorces/origin_data/train.labels.0.csv', low_memory=False)
-    print(Y['אבחנה-Location of distal metastases'].unique())
+    # processed_X.to_csv('baseLine.csv')
+    # Y = pd.read_csv('/Users/elilevinkopf/Documents/Ex22B/IML/Hackathon/IML_hackathon/resorces/origin_data/train.labels.0.csv', low_memory=False)
+    # print(Y['אבחנה-Location of distal metastases'].unique())
     
