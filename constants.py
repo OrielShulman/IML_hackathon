@@ -1,0 +1,18 @@
+from typing import Final
+
+
+TRAIN_FEATURES_PATH = r'resorces/origin/train.feats.csv'
+TEST_FEATURES_PATH = r'resorces/origin/test.feats.csv'
+TRAIN_LABELS_0_PATH = r'resorces/origin/train.labels.0.csv'
+TRAIN_LABELS_1_PATH = r'resorces/origin/train.labels.1.csv'
+
+TEST_PERCENTAGE: Final = .2
+
+DEV_PERCENTAGE: Final = .125
+
+TRAIN_PERCENTAGE: Final = .7
+# TEST_PERCENTAGE: Final = 1 - TRAIN_PERCENTAGE
+
+SPLIT_SEED = 1
+
+ELIS_CONST = .125
