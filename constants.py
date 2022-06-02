@@ -1,10 +1,10 @@
 from typing import Final
 
 
-TRAIN_FEATURES_PATH = r'resorces/origin/train.feats.csv'
-TEST_FEATURES_PATH = r'resorces/origin/test.feats.csv'
-TRAIN_LABELS_0_PATH = r'resorces/origin/train.labels.0.csv'
-TRAIN_LABELS_1_PATH = r'resorces/origin/train.labels.1.csv'
+TRAIN_FEATURES_PATH = r'resorces/origin_data/train.feats.csv'
+TEST_FEATURES_PATH = r'resorces/origin_data/test.feats.csv'
+TRAIN_LABELS_0_PATH = r'resorces/origin_data/train.labels.0.csv'
+TRAIN_LABELS_1_PATH = r'resorces/origin_data/train.labels.1.csv'
 
 TEST_PERCENTAGE: Final = .2
 
