@@ -82,7 +82,7 @@ def basicPreprocessing1(X: pd.DataFrame)->pd.DataFrame:
     # אבחנה-Positive nodes
     X['אבחנה-Positive nodes'].fillna(0.0) # TODO: fill nan with mean value
 
-
+    return X
 
 
 

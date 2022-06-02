@@ -29,10 +29,14 @@ def load_data():
     return X, y_0, y_1
 
 
-def split_data_tumor_size() -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
+def split_data_tumor_size(mission) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
     # read relevant data
-    X_ = pd.read_csv(TRAIN_FEATURES_PATH)
-    y_ = pd.read_csv(TRAIN_LABELS_0_PATH)
+    if (mission == 0):
+        y_ = pd.read_csv(TRAIN_LABELS_0_PATH)
+        X_ = pd.read_csv(PROCESSED_DATA_0)
+    else:
+        y_ = pd.read_csv(TRAIN_LABELS_1_PATH)
+        X_ = pd.read_csv(PROCESSED_DATA_1)
     print(f'before: {y_.nunique()}\n\n')
     print(f'values: {pd.unique(y_.squeeze())}\n{"-"*30}\n')
 
