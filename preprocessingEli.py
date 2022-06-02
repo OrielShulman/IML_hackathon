@@ -11,7 +11,8 @@ def dropFeatures(X: pd.DataFrame):
 
 
 def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
-    X = X[['אבחנה-M -metastases mark (TNM)','אבחנה-Stage', 'אבחנה-Surgery name1', 'אבחנה-Surgery name2', 'אבחנה-Age', 'אבחנה-Side', 'אבחנה-Positive nodes']]
+    X = X[['אבחנה-M -metastases mark (TNM)','אבחנה-Stage', 'אבחנה-Surgery name1', 'אבחנה-Surgery name2', 'אבחנה-Age', 'אבחנה-Side',
+           'אבחנה-Positive nodes', 'surgery before or after-Actual activity']]
 
     # 'אבחנה-M -metastases mark (TNM)'
     # X['אבחנה-M -metastases mark (TNM)'].fillna('nan', inplace=True)
@@ -33,11 +34,11 @@ def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
     # אבחנה-Surgery name1, אבחנה-Surgery name2
     X['אבחנה-Surgery name1'].fillna(0, inplace=True)
     X['אבחנה-Surgery name2'].fillna(0, inplace=True)
-    X['אבחנה-Stage'].fillna(0, inplace=True)
     X = pd.get_dummies(X, prefix='אבחנה-Surgery name1', columns=['אבחנה-Surgery name1'])
     X = pd.get_dummies(X, prefix='אבחנה-Surgery name2', columns=['אבחנה-Surgery name2'])
 
     # אבחנה-Stage
+    X['אבחנה-Stage'].fillna(0, inplace=True)
     stageDictionary = {'Stage2a':2, 'Stage4':4, 'Stage1':1, 'Stage3b':3, 'Stage2b':2, 'LA':0, 'Stage1c':1, 'Stage2':2, 'Stage3c':3,
      'Stage0':0, 'Stage1b':1, 'Stage3a':3, 'Stage3':3, 'Stage1a':1, 'Stage0is':0,'Not yet Established':0, 'Stage0a':0}
     X['אבחנה-Stage'] = X['אבחנה-Stage'].replace(stageDictionary)
@@ -46,16 +47,50 @@ def basicPreprocessing(X: pd.DataFrame)->pd.DataFrame:
     X = pd.get_dummies(X, prefix='אבחנה-Side', columns=['אבחנה-Side'])
 
     # אבחנה-Positive nodes
-    X['אבחנה-Positive nodes'].fillna(0.0)
+    X['אבחנה-Positive nodes'].fillna(0.0) # TODO: fill nan with mean value
+
+
 
     return X
+
+
+def basicPreprocessing1(X: pd.DataFrame)->pd.DataFrame:
+    X = X[['אבחנה-Tumor depth', 'אבחנה-Tumor width', 'אבחנה-Age', 'אבחנה-M -metastases mark (TNM)', 'אבחנה-Stage', 'אבחנה-Surgery name1', 'אבחנה-Surgery name2', 'אבחנה-Positive nodes']]
+
+    # אבחנה-Tumor depth
+    X['אבחנה-Tumor depth'].fillna(0, inplace=True)
+
+    # אבחנה-Tumor width
+    X['אבחנה-Tumor width'].fillna(0, inplace=True)
+
+    # 'אבחנה-M -metastases mark (TNM)'
+    X = pd.get_dummies(X, prefix='אבחנה-M -metastases mark (TNM)', columns=['אבחנה-M -metastases mark (TNM)'])
+
+    # אבחנה-Stage
+    X['אבחנה-Stage'].fillna(0, inplace=True)
+    stageDictionary = {'Stage2a':2, 'Stage4':4, 'Stage1':1, 'Stage3b':3, 'Stage2b':2, 'LA':0, 'Stage1c':1, 'Stage2':2, 'Stage3c':3,
+     'Stage0':0, 'Stage1b':1, 'Stage3a':3, 'Stage3':3, 'Stage1a':1, 'Stage0is':0,'Not yet Established':0, 'Stage0a':0}
+    X['אבחנה-Stage'] = X['אבחנה-Stage'].replace(stageDictionary)
+
+    # אבחנה-Surgery name1, אבחנה-Surgery name2
+    X['אבחנה-Surgery name1'].fillna(0, inplace=True)
+    X['אבחנה-Surgery name2'].fillna(0, inplace=True)
+    X = pd.get_dummies(X, prefix='אבחנה-Surgery name1', columns=['אבחנה-Surgery name1'])
+    X = pd.get_dummies(X, prefix='אבחנה-Surgery name2', columns=['אבחנה-Surgery name2'])
+
+    # אבחנה-Positive nodes
+    X['אבחנה-Positive nodes'].fillna(0.0) # TODO: fill nan with mean value
+
+
+
 
 
 if __name__ == '__main__':
     X = pd.read_csv('/Users/elilevinkopf/Documents/Ex22B/IML/Hackathon/IML_hackathon/resorces/origin_data/train.feats.csv', low_memory=False)
     # dropFeatures(X)
     processed_X = basicPreprocessing(X)
-    # processed_X.to_csv('baseLine.csv')
+    processed_X.to_csv('baseLine.csv')
+    print(type(str([1,2,3])))
     # Y = pd.read_csv('/Users/elilevinkopf/Documents/Ex22B/IML/Hackathon/IML_hackathon/resorces/origin_data/train.labels.0.csv', low_memory=False)
     # print(Y['אבחנה-Location of distal metastases'].unique())
     
